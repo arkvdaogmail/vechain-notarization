@@ -2,10 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const uploadArea = document.getElementById('uploadArea');
     const fileInput = document.getElementById('fileInput');
     const notarizeBtn = document.getElementById('notarizeBtn');
+    const verifyBtn = document.getElementById('verifyBtn');
     const documentHash = document.getElementById('documentHash');
     const txId = document.getElementById('txId');
     const statusText = document.getElementById('statusText');
     const fileInfo = document.getElementById('fileInfo');
+    const verifyHash = document.getElementById('verifyHash');
+    const verifyResult = document.getElementById('verifyResult');
     
     let currentFile = null;
     
@@ -37,7 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('document', currentFile);
         
         try {
-            const response = await fetch('http://localhost:5002/notarize', {
+            // Dynamic API URL for CodeSandbox compatibility
+            const apiUrl = window.location.origin + '/notarize';
+            
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 body: formData
             });
@@ -46,13 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (result.success) {
                 documentHash.textContent = result.documentHash;
-                txId.textContent = result.txId;
+                txId.textContent = result.vechainTx;
                 statusText.textContent = 'Successfully notarized!';
                 
                 // Show explorer link
                 fileInfo.innerHTML += `
                     <div class="success-message">
-                        <a href="https://explore-testnet.vechain.org/transactions/${result.txId}" target="_blank">
+                        <a href="https://explore-testnet.vechain.org/transactions/${result.vechainTx}" target="_blank">
                             View on Blockchain Explorer
                         </a>
                     </div>
@@ -63,6 +69,53 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             statusText.textContent = 'Error: ' + error.message;
             console.error('Notarization error:', error);
+        }
+    });
+    
+    // Verification Event Listener
+    verifyBtn.addEventListener('click', async () => {
+        const hashToVerify = verifyHash.value.trim();
+        
+        if (!hashToVerify) {
+            alert('Please enter a document hash to verify');
+            return;
+        }
+        
+        verifyResult.innerHTML = '<div class="loading">Verifying...</div>';
+        
+        try {
+            const apiUrl = window.location.origin + '/verify/' + hashToVerify;
+            const response = await fetch(apiUrl);
+            const result = await response.json();
+            
+            if (result.verified) {
+                verifyResult.innerHTML = `
+                    <div class="success-message">
+                        <h3>✅ Document Verified!</h3>
+                        <p><strong>Notarized:</strong> ${new Date(result.timestamp).toLocaleString()}</p>
+                        <p><strong>File:</strong> ${result.record.file_name}</p>
+                        <p><strong>Size:</strong> ${formatFileSize(result.record.file_size)}</p>
+                        <p><strong>Type:</strong> ${result.record.file_type}</p>
+                        <a href="https://explore-testnet.vechain.org/transactions/${result.record.vechain_tx_id}" target="_blank">
+                            View Transaction on Blockchain
+                        </a>
+                    </div>
+                `;
+            } else {
+                verifyResult.innerHTML = `
+                    <div class="error-message">
+                        <h3>❌ Verification Failed</h3>
+                        <p>Document hash not found in notarization records.</p>
+                    </div>
+                `;
+            }
+        } catch (error) {
+            verifyResult.innerHTML = `
+                <div class="error-message">
+                    <h3>❌ Verification Error</h3>
+                    <p>${error.message}</p>
+                </div>
+            `;
         }
     });
     

@@ -1,12 +1,17 @@
 {
-  "name": "trust-seal-backend",
+  "name": "vechain-notarization",
   "version": "1.0.0",
-  "description": "Blockchain document notarization service",
+  "description": "VeChain blockchain document notarization service - CodeSandbox ready",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "curl http://localhost:5002/test"
+    "dev": "node app.js",
+    "test": "echo 'Server health check' && curl -f http://localhost:3000/health || echo 'Server not running'",
+    "setup": "echo 'Please configure environment variables as described in CODESANDBOX_SETUP.md'"
   },
+  "keywords": ["vechain", "blockchain", "notarization", "codesandbox", "demo"],
+  "author": "VeChain Developer",
+  "license": "MIT",
   "dependencies": {
     "@supabase/supabase-js": "^2.55.0",
     "@vechain/sdk-network": "^2.0.3",

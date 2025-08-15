@@ -1,0 +1,7 @@
+{
+  "name": "VeChain Document Notarization",
+  "description": "Blockchain-based document notarization service on VeChain testnet",
+  "tags": ["vechain", "blockchain", "notarization", "node", "express"],
+  "template": "node",
+  "main": "app.js"
+}
