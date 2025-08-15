@@ -1,28 +1,24 @@
 {
-  "name": "vechain-notarization",
+  "name": "vechain-stripe-app",
   "version": "1.0.0",
-  "description": "VeChain blockchain document notarization service - CodeSandbox ready",
+  "description": "VeChain + Stripe Integration",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "node app.js",
-    "test": "echo 'Server health check' && curl -f http://localhost:3000/health || echo 'Server not running'",
-    "setup": "echo 'Please configure environment variables as described in CODESANDBOX_SETUP.md'"
+    "test": "node test-derivation.js"
   },
-  "keywords": ["vechain", "blockchain", "notarization", "codesandbox", "demo"],
-  "author": "VeChain Developer",
-  "license": "MIT",
+  "type": "commonjs",
   "dependencies": {
+    "@scure/bip32": "^1.3.1",
+    "@scure/bip39": "^1.2.1",
     "@supabase/supabase-js": "^2.55.0",
-    "@vechain/sdk-network": "^2.0.3",
-    "body-parser": "^1.20.2",
-    "dotenv": "^17.2.1",
-    "express": "^4.18.2",
-    "helmet": "^7.1.0",
-    "multer": "^1.4.5-lts.1",
-    "stripe": "^14.7.0"
-  },
-  "engines": {
-    "node": ">=18.x"
+    "@vechain/sdk-core": "^1.0.0",
+    "@vechain/sdk-network": "^1.2.0",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "helmet": "^7.2.0",
+    "multer": "^2.0.2",
+    "stripe": "^15.7.0"
   }
 }
