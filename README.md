@@ -24,6 +24,7 @@ Open `http://localhost:3000` - **Works immediately in demo mode!**
 - **🎮 Demo Mode**: Works immediately without any configuration
 - **📁 Upload Documents**: Secure file upload with drag-and-drop interface
 - **🔒 Generate Hash**: SHA-256 hash generation for document integrity
+- **💳 Payment Processing**: Secure Stripe payment integration for notarization fees
 - **⛓️ Blockchain Notarization**: Record document hashes on VeChain testnet
 - **💾 Database Storage**: Store notarization records in Supabase
 - **✅ Verification**: Verify document authenticity using blockchain records
@@ -63,8 +64,12 @@ vechain-notarization/
 ## 🌐 API Endpoints
 
 - `GET /` - Frontend interface
-- `POST /notarize` - Upload and notarize document
+- `POST /notarize` - Upload and notarize document (requires payment in production)
 - `GET /verify/:hash` - Verify document notarization
+- `POST /create-payment-session` - Create Stripe payment session
+- `GET /verify-payment/:sessionId` - Verify payment completion
+- `GET /stripe-config` - Get Stripe configuration for frontend
+- `POST /webhook` - Stripe webhook handler
 - `GET /health` - Health check
 
 ## 🔐 Environment Configuration
@@ -74,14 +79,50 @@ vechain-notarization/
 **Production Mode**: Copy `.env.example` to `.env` and configure:
 
 ```bash
+# Supabase Configuration
 SUPABASE_URL=your_supabase_project_url
 SUPABASE_KEY=your_supabase_anon_key  
+
+# VeChain Configuration (Testnet)
 VECHAIN_ADDRESS=your_vechain_testnet_address
 VECHAIN_PRIVATE_KEY=your_vechain_testnet_private_key
+
+# Stripe Payment Configuration
+STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key
+STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key
+STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret
+NOTARIZATION_PRICE=500  # Price in cents (500 = $5.00)
+
+# Server Configuration
 PORT=3000
 ```
 
 See [SETUP.md](SETUP.md) for detailed configuration instructions.
+
+## 💳 Payment Integration
+
+### How It Works
+1. **Upload Document**: User selects a document for notarization
+2. **Payment Required**: When Stripe is configured, users must pay before notarization
+3. **Secure Payment**: Uses Stripe Checkout for secure payment processing
+4. **Blockchain Notarization**: After successful payment, document is notarized on VeChain
+5. **Permanent Record**: Both payment and blockchain transaction are recorded
+
+### Payment Flow
+```
+Upload Document → Pay via Stripe → Verify Payment → Notarize on Blockchain → Success
+```
+
+### Demo Mode vs Production
+- **Demo Mode**: No payment required, free notarization for testing
+- **Production Mode**: Stripe payment required before notarization
+
+### Setting Up Payments
+1. Create a [Stripe account](https://stripe.com)
+2. Get your API keys from the Stripe dashboard
+3. Configure webhook endpoint: `https://yourdomain.com/webhook`
+4. Add Stripe keys to your `.env` file
+5. Set `NOTARIZATION_PRICE` in cents (500 = $5.00)
 
 ## 🧪 Testing
 
