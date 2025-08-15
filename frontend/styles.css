@@ -129,3 +129,60 @@ input[type="text"] {
     padding-bottom: 10px;
     border-bottom: 1px solid #444;
 }
+
+/* Payment Styles */
+.pricing-info {
+    margin: 20px 0;
+    padding: 15px 0;
+    border-top: 1px solid #444;
+    border-bottom: 1px solid #444;
+}
+
+.price-card {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #00bc8c, #00a578);
+    border-radius: 8px;
+    color: white;
+}
+
+.price-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+}
+
+.price {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.price-card p {
+    margin: 10px 0 0 0;
+    opacity: 0.9;
+}
+
+.success-message {
+    background-color: #155724;
+    border: 1px solid #c3e6cb;
+    color: #d4edda;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.error-message {
+    background-color: #721c24;
+    border: 1px solid #f5c6cb;
+    color: #f8d7da;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #00bc8c;
+    font-style: italic;
+}

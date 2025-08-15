@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trust-Seal Notary Service</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
     <div class="container">
@@ -25,7 +26,17 @@
                 <input type="file" id="fileInput" hidden>
                 <div id="fileInfo"></div>
             </div>
-            <button id="notarizeBtn" class="btn">Notarize on Blockchain</button>
+            
+            <!-- Pricing Information -->
+            <div class="pricing-info" id="pricingInfo" style="display: none;">
+                <div class="price-card">
+                    <h3>💳 Notarization Service</h3>
+                    <div class="price" id="priceDisplay">$5.00</div>
+                    <p>Secure blockchain notarization with permanent verification</p>
+                </div>
+            </div>
+            
+            <button id="notarizeBtn" class="btn">Pay & Notarize on Blockchain</button>
         </div>
 
         <div class="card">
